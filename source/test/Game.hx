@@ -13,13 +13,13 @@ class Game extends Sprite {
 
     public var persistentAssets:Array<String> = [];
     public var scene:Scene;
-    private var _sceneOnUpdate:Event->Void;
-    private var _sceneOnDestroy:Event->Void;
+    @:noDoc private var _sceneOnUpdate:Event->Void;
+    @:noDoc private var _sceneOnDestroy:Event->Void;
 
     public var frameRate:Int = 60;
     public var onAddedToStage:Void->Void;
 
-    private var lastTime:Int = 0;
+    @:noDoc private var lastTime:Int = 0;
 
     public function new() {
         super();
@@ -29,14 +29,18 @@ class Game extends Sprite {
         addEventListener(Event.ADDED_TO_STAGE, _onAddedToStage);
     }
 
-    private function _onAddedToStage(?e:Event) {
+    @:noDoc private function _onAddedToStage(?e:Event) {
+        // Force the framerate limit.
         stage.frameRate = frameRate;
+
+        // Then handle stuff like initialising the initial state.
         onAddedToStage();
 
         removeEventListener(Event.ADDED_TO_STAGE, _onAddedToStage);
     }
 
     public function setScene(s:Scene) {
+        // If the next scene is broken, tell the programmer of their horrible mistake!
         if (!(s is DisplayObject)) {
             stage.window.alert('`Game.instance.scene` does not extend `openfl.display.DisplayObject`!\nThis is fucking bad!', 'Warning!');
             return;
@@ -48,6 +52,7 @@ class Game extends Sprite {
         }
 
         new Future(() -> {
+            // This is everything OpenFL actually caches.
             for (a in Assets.list(IMAGE)) {
                 if (persistentAssets.contains(a))
                     continue;
@@ -72,6 +77,7 @@ class Game extends Sprite {
                     Assets.cache.removeFont(a);
             }
 
+            // Then we run the GC for good measure.
             System.gc();
         }, true).result();
 
@@ -79,9 +85,10 @@ class Game extends Sprite {
         addChild(cast scene);
         scene.create();
 
-        lastTime = Lib.getTimer();
-
+        // OpenFL handles rendering for you, so I don't know if we actually
+        // need a `render()` function at all, to be perfectly honest.
         stage.removeEventListener(Event.ENTER_FRAME, _sceneOnUpdate);
+        lastTime = Lib.getTimer();
         _sceneOnUpdate = e -> {
             final time = Lib.getTimer();
             scene.update((time - lastTime) / 1000);
