@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<meta title="FunnyFrameworkTest" package="com.adafunni.funnyframeworkTest" version="1.0.0" company="Company Name" />
+	<app main="Main" path="export" file="FunnyFrameworkTest" />
+	
+	<source path="source" />
+	
+	<haxelib name="openfl" />
+	
+	<assets path="assets" />
+
+	<window width="640" height="480" background="#000000" />
+</project>
