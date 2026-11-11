@@ -1,2 +1,2 @@
-# PokemonRedOpenFL
-Funny "framework" I wrote on a whim because I could.
+# FunnyFrameworkTest
+Funny OpenFL "framework" I wrote on a whim because I could.
