@@ -9,7 +9,6 @@ class Main
 	static function main() {
 		Game.instance = new Game();
 		Game.instance.onAddedToStage = () -> {
-			trace("hello i am in the stage");
 			Game.instance.addChild(new FPSCounter());
 			Game.instance.setScene(new test.play.PlayScene());
 		};
