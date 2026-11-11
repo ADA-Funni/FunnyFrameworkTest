@@ -13,7 +13,7 @@ class Main
 			Game.instance.setScene(new test.play.PlayScene());
 		};
 
-		Game.instance.init();
 		Lib.current.addChild(Game.instance);
+		Game.instance.init();
 	}
 }
